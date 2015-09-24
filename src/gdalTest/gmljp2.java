@@ -317,17 +317,17 @@ public class gmljp2 extends JFrame implements ActionListener{
 								boolean haveValue = false;
 								for (int n = 0; n < A19.length; n++) {
 									haveValue = !A19[n].contains("");
-									listTest.add("Test A.1.9 nil-values at least one element have not a reason. Test not passed.");
+									listTest.add("Test A.1.9 [Optional] nil-values at least one element have not a reason. Test not passed.");
 									break;
 								}
 								if (haveValue)
 									listTest.add("Test A.1.9 passed");
 							}
 							else {
-								listTest.add("Test A.1.9 nil-values elements not found");
+								listTest.add("Test A.1.9 [Optional] nil-values elements not found");
 							}
 			    		} else
-							listTest.add("Test A.1.9 nil-values not found");
+							listTest.add("Test A.1.9 [Optional] nil-values not found");
 
 		                  
 		                  //test:A.1.10 -  Nil-values by reference
@@ -339,17 +339,17 @@ public class gmljp2 extends JFrame implements ActionListener{
 								boolean haveURI = false;
 								for (int n = 0; n < A110.length; n++) {
 									haveURI = A110[n].contains("http");
-									listTest.add("Test A.1.10 nil-values at least one element have not URI. Test not passed.");
+									listTest.add("Test A.1.10 [Optional] nil-values at least one element have not URI. Test not passed.");
 									break;
 								}
 								if (haveURI)
 									listTest.add("Test A.1.10 passed");
 							}
 							else {
-								listTest.add("Test A.1.10 nil-values elements not found");
+								listTest.add("Test A.1.10 [Optional] nil-values elements not found");
 							}
 			    		} else
-							listTest.add("Test A.1.10 nil-values not found");
+							listTest.add("Test A.1.10 [Optional] nil-values not found");
 
 			    		
 			    		//test:A.1.11 -  GMLJP2 file root is a coverage collection
@@ -394,7 +394,7 @@ public class gmljp2 extends JFrame implements ActionListener{
 						if (A113 != "Not found")
 							listTest.add("Test A.1.13 passed");
 						else
-							listTest.add("Test A.1.13 gmlcov:metadata not found, not passed");
+							listTest.add("Test A.1.13 [Optional] gmlcov:metadata not found");
 		                  
 		                  //test:A.1.14 - GMLJP2 file features
 		                  //Verify that gmljp2:GMLJP2Features (for features common to all codestreams) or gmljp2:feature (for features that are related to a single codestream) contain features as necessary that are not coverages or annotations. If so, test passes if these features are not coverages or annotations.
@@ -434,11 +434,12 @@ public class gmljp2 extends JFrame implements ActionListener{
 
 		                  //test:A.1.15 - GMLJP2 file annotations
 		                  //Verify that annotations are contained only in the gmljp2:annotation element as specified. Test passes if they are.
-			    		String A115 = findElement(doc.getChildNodes(), "gmljp2:annotation");
-						if (A115 != "Not found")
+			    		String A115 = getNodeValue(doc.getChildNodes(), "gmljp2:annotation");
+			    		//String[] A115 = findElementContains(doc.getChildNodes(), "gmljp2:annotation");
+			    		if (A115 != "Not found")
 							listTest.add("Test A.1.15 passed");
 						else
-							listTest.add("Test A.1.15 not passed");
+							listTest.add("Test A.1.15 [Optional] gmljp2:annotation not found");
 
 						
 		                  //test:A.1.16 - GMLJP2 file styles
@@ -1137,10 +1138,12 @@ public class gmljp2 extends JFrame implements ActionListener{
     }
 
     private static void canvasAddText(List<String> text){
-canvas.setText("");
+    	canvas.setText("");
     	String texto = "<html><body>";
     	for (String string : text) {
-    		if (string.contains(" not ") || string.contains("Exception"))
+    		if (string.contains("[Optional]"))
+    			texto += "<font color='blue'>" + string + "</font><br>";
+    		else if (string.contains(" not ") || string.contains("Exception"))
     			texto += "<font color='red'>" + string + "</font><br>";
     		else
     			texto += "<font color='green'>" + string + "</font><br>";
